@@ -35,7 +35,7 @@ import struct
 from types import *
 from time import sleep
 
-if sys.version_info < (2,5): 
+if sys.version_info < (2,5):
     sys.stdout.write("\n\nERROR: This script needs Python version 2.5 or greater, detected as ")
     print sys.version_info
     sys.exit()  # error
@@ -121,7 +121,7 @@ def UpdatePatch(StartSector,ByteOffset,PHYPartition,size_in_bytes,szvalue,szfile
                                      'physical_partition_number':str(PHYPartition), 'size_in_bytes':str(size_in_bytes),
                                      'value':szvalue, 'filename':szfilename, 'SECTOR_SIZE_IN_BYTES':str(SECTOR_SIZE_IN_BYTES), 'what':szwhat   })
 
-                    
+
 def UpdateRawProgram(RawProgramXML, StartSector, size_in_KB, PHYPartition, file_sector_offset, num_partition_sectors, filename, sparse, label,readbackverify='false', partofsingleimage='false'):
     if StartSector<0:
         szStartSector = "NUM_DISK_SECTORS%d." % StartSector      ## as in NUM_DISK_SECTORS-33 since %d=-33
@@ -131,7 +131,7 @@ def UpdateRawProgram(RawProgramXML, StartSector, size_in_KB, PHYPartition, file_
         #print "UpdateRawProgram StartSector=",StartSector
         #print "StartSector=",type(StartSector)
         #print "-----------------------------------------"
-        
+
         szStartByte   = str(hex(StartSector*SECTOR_SIZE_IN_BYTES))
         szStartSector = str(StartSector)
 
@@ -146,14 +146,14 @@ def UpdateRawProgram(RawProgramXML, StartSector, size_in_KB, PHYPartition, file_
 
     if erasefirst:
         if label!="cdt":
-            SubElement(RawProgramXML, 'erase', {'start_sector':szStartSector, 'physical_partition_number':str(PHYPartition), 
-                                                'num_partition_sectors':str(num_partition_sectors), 'filename':filename, 
+            SubElement(RawProgramXML, 'erase', {'start_sector':szStartSector, 'physical_partition_number':str(PHYPartition),
+                                                'num_partition_sectors':str(num_partition_sectors), 'filename':filename,
                                                 'SECTOR_SIZE_IN_BYTES':str(SECTOR_SIZE_IN_BYTES) })
 
 
     SubElement(RawProgramXML, 'program', {'start_sector':szStartSector, 'size_in_KB':str(size_in_KB), 'physical_partition_number':str(PHYPartition), 'partofsingleimage':partofsingleimage,
                                           'file_sector_offset':str(file_sector_offset), 'num_partition_sectors':str(num_partition_sectors), 'readbackverify':readbackverify,
-                                          'filename':filename,  'sparse':sparse, 'start_byte_hex':szStartByte,  'SECTOR_SIZE_IN_BYTES':str(SECTOR_SIZE_IN_BYTES), 'label':label       })                                              
+                                          'filename':filename,  'sparse':sparse, 'start_byte_hex':szStartByte,  'SECTOR_SIZE_IN_BYTES':str(SECTOR_SIZE_IN_BYTES), 'label':label       })
 
 
     #iter = RawProgramXML.getiterator()
@@ -168,8 +168,8 @@ def UpdateRawProgram(RawProgramXML, StartSector, size_in_KB, PHYPartition, file_
 
     #import pdb; pdb.set_trace()
 
-                    
-                    
+
+
 def PrintBigWarning(sz):
     print "\t                          _             "
     print "\t                         (_)            "
@@ -194,7 +194,7 @@ def ValidGUIDForm(GUID):
     if type(m) is not NoneType:
         return True
 
-    m = re.search("([a-fA-F\d]{8})-([a-fA-F\d]{4})-([a-fA-F\d]{4})-([a-fA-F\d]{2})([a-fA-F\d]{2})-([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})", GUID) 
+    m = re.search("([a-fA-F\d]{8})-([a-fA-F\d]{4})-([a-fA-F\d]{4})-([a-fA-F\d]{2})([a-fA-F\d]{2})-([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})", GUID)
     if type(m) is not NoneType:
         return True
 
@@ -244,10 +244,10 @@ def ValidateGUID(GUID):
             print "\tUNKNOWN PARTITION_GUID detected\n"
 
         return tempGUID
-    
+
     else:
         #ebd0a0a2-b9e5-4433-87c0-68b6b72699c7  --> #0x C7 99 26 B7 B6 68 C087 4433 B9E5 EBD0A0A2
-        m = re.search("([a-fA-F\d]{8})-([a-fA-F\d]{4})-([a-fA-F\d]{4})-([a-fA-F\d]{2})([a-fA-F\d]{2})-([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})", GUID) 
+        m = re.search("([a-fA-F\d]{8})-([a-fA-F\d]{4})-([a-fA-F\d]{4})-([a-fA-F\d]{2})([a-fA-F\d]{2})-([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})", GUID)
         if type(m) is not NoneType:
             print "Found more advanced type"
             tempGUID = (int(m.group(4),16)<<64) | (int(m.group(3),16)<<48) | (int(m.group(2),16)<<32) | int(m.group(1),16)
@@ -262,8 +262,8 @@ def ValidateGUID(GUID):
             print "*"*78
             print "WARNING"+"-"*78+"\n"
             print "Converted to PARTITION_BASIC_DATA_GUID (0xC79926B7B668C0874433B9E5EBD0A0A2)\n"
-            return PARTITION_BASIC_DATA_GUID    
-    
+            return PARTITION_BASIC_DATA_GUID
+
 def EnsureDirectoryExists(filename):
     dir = os.path.dirname(filename)
 
@@ -278,7 +278,7 @@ def WriteGPT(GPTMAIN, GPTBACKUP, GPTEMPTY):
     #    opfile.write(struct.pack("B", b))
     #for b in BackupGPT:
     #    opfile.write(struct.pack("B", b))
-        
+
     ofile = open(GPTMAIN, "wb")
     for b in PrimaryGPT:
         ofile.write(struct.pack("B", b))
@@ -338,7 +338,7 @@ def FillInEmptyGPT():
     i+=16
     EmptyGPT[i:i+9]     = [0x65, 0x00, 0x6D, 0x00, 0x70, 0x00, 0x74, 0x00, 0x79]    # unicode "empty" partition name
 
-    
+
 
 def UpdatePrimaryGPT(value,length,i):
     global PrimaryGPT
@@ -369,7 +369,7 @@ def CreateFileOfZeros(filename,num_sectors):
         print "ERROR: Could not create '%s', cwd=%s" % (filename,os.getcwd() )
         print "REASON: %s" % (x)
         sys.exit(1)
-        
+
     temp = [0]*(SECTOR_SIZE_IN_BYTES*num_sectors)
     zeros = struct.pack("%iB"%(SECTOR_SIZE_IN_BYTES*num_sectors),*temp)
     try:
@@ -377,7 +377,7 @@ def CreateFileOfZeros(filename,num_sectors):
     except Exception, x:
         print "ERROR: Could not write zeros to '%s'\nREASON: %s" % (filename,x)
         sys.exit(1)
-    
+
     try:
         opfile.close()
     except Exception, x:
@@ -385,7 +385,7 @@ def CreateFileOfZeros(filename,num_sectors):
         print "REASON: %s" % (x)
 
     print "Created \"%s\"\t\t<-- full of binary zeros - used by \"wipe\" rawprogram files" % filename
-            
+
 def CreateErasingRawProgramFiles():
 
     CreateFileOfZeros("zeros_1sector.bin",1)
@@ -410,7 +410,7 @@ def CreateErasingRawProgramFiles():
         opfile.close()
         print "Created \"%s\"\t<-- Used to *wipe/erase* partition information" % RAW_PROGRAM
 
-    
+
 NumPartitions       = 0
 SizeOfPartitionArray= 0
 
@@ -469,7 +469,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
         UpdateWPhash(FirstLBA, 0)   # make sure 1st write protect boundary is setup correctly
 
     #print "len(PhyPartition)=%d and k=%d" % (len(PhyPartition),k)
-    
+
     if(k>=len(PhyPartition)):
         if UserProvided==True:
             print "\nERROR: PHY Partition %i of %i not found" % (k,len(PhyPartition))
@@ -494,7 +494,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
         print "   )   )   )   )   )   )   )   )   )   )   )   )   )   )   )   )   )   )"
         print "  (_,-\"   (_,-\"   (_,-\"   (_,-\"   (_,-\"   (_,-\"   (_,-\"   (_,-\"   (_,-\""
         print "="*78
-	
+
         PhyPartition[k][j]['size_in_kb'] = int(PhyPartition[k][j]['size_in_kb'])
         print "\n\n%d of %d \"%s\" (readonly=%s) and size=%dKB (%dMB) (%i sectors with %i bytes/sector)" %(j+1,len(PhyPartition[k]),PhyPartition[k][j]['label'],PhyPartition[k][j]['readonly'],PhyPartition[k][j]['size_in_kb'],PhyPartition[k][j]['size_in_kb']/1024,ConvertKBtoSectors(PhyPartition[k][j]['size_in_kb']),SECTOR_SIZE_IN_BYTES)
 
@@ -505,7 +505,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
             PhyPartition[k][j]['size_in_kb'] = (TempResult * SECTOR_SIZE_IN_BYTES)/1024
 
             ##import pdb; pdb.set_trace() ## verifying sizes
-        
+
 	if HashInstructions['PERFORMANCE_BOUNDARY_IN_KB']>0 and HashInstructions['ALIGN_PARTITIONS_TO_PERFORMANCE_BOUNDARY'] is False:
 	    PrintBigWarning("WARNING: HashInstructions['PERFORMANCE_BOUNDARY_IN_KB'] is %i KB\n\tbut HashInstructions['ALIGN_PARTITIONS_TO_PERFORMANCE_BOUNDARY'] is FALSE!!\n\n" % HashInstructions['PERFORMANCE_BOUNDARY_IN_KB'])
 	    PrintBigWarning("WARNING: This means partitions will *NOT* be aligned to a HashInstructions['PERFORMANCE_BOUNDARY_IN_KB'] of %i KB !!\n\n" % HashInstructions['PERFORMANCE_BOUNDARY_IN_KB'])
@@ -514,9 +514,9 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
 	    print "\t\tPERFORMANCE_BOUNDARY_IN_KB = %i" % Partition['PERFORMANCE_BOUNDARY_IN_KB']
 	    print "\t\tALIGN_PARTITIONS_TO_PERFORMANCE_BOUNDARY=true"
 	    print "\t</parser_instructions>\n\n"
-	
+
         if HashInstructions['ALIGN_PARTITIONS_TO_PERFORMANCE_BOUNDARY'] is True:
-            ## to be here means this partition *must* be on an ALIGN boundary 
+            ## to be here means this partition *must* be on an ALIGN boundary
             print "\tAlignment is to %iKB" % PhyPartition[k][j]['PERFORMANCE_BOUNDARY_IN_KB']
             SectorsTillNextBoundary = ReturnNumSectorsTillBoundary(FirstLBA,PhyPartition[k][j]['PERFORMANCE_BOUNDARY_IN_KB']) ## hi
             if SectorsTillNextBoundary>0:
@@ -526,7 +526,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
 	else:
 	    if PhyPartition[k][j]['PERFORMANCE_BOUNDARY_IN_KB']>0:
 	        print "\tThis partition is *NOT* aligned to a performance boundary\n"
-	
+
         if HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB']>0:
             SectorsTillNextBoundary = ReturnNumSectorsTillBoundary(FirstLBA,HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB'])
 
@@ -559,7 +559,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
             if HashInstructions['GROW_LAST_PARTITION_TO_FILL_DISK']==True:
 
                 print "\nMeans patching instructions go here"
-    
+
                 PhyPartition[k][j]['size_in_kb']  = 0 # infinite huge
                 print "PhyPartition[k][j]['size_in_kb'] set to 0"
                 SectorsRemaining = BackupGPTNumLBAs
@@ -571,31 +571,31 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
                 #StartSector         = 2*512+40+j*128        ## i.e. skip sector 0 and 1, then it's offset
                 #ByteOffset          = str(StartSector%512)
                 #StartSector         = str(int(StartSector / 512))
-    
+
                 StartSector         = 40+j*128        ## i.e. skip sector 0 and 1, then it's offset
                 ByteOffset          = str(StartSector%SECTOR_SIZE_IN_BYTES)
                 StartSector         = str(2+int(StartSector / SECTOR_SIZE_IN_BYTES))
-                    
+
                 BackupStartSector   = 40+j*128
                 ByteOffset          = str(BackupStartSector%SECTOR_SIZE_IN_BYTES)
                 BackupStartSector   = int(BackupStartSector / SECTOR_SIZE_IN_BYTES)
-                    
+
                 ## gpt patch - main gpt partition array
                 UpdatePatch(StartSector,ByteOffset,PhysicalPartitionNumber,8,"NUM_DISK_SECTORS-%d." % PrimaryGPTNumLBAs,os.path.basename(GPTMAIN),"Update last partition %d '%s' with actual size in Primary Header." % ((j+1),PhyPartition[k][j]['label']))
                 UpdatePatch(StartSector,ByteOffset,PhysicalPartitionNumber,8,"NUM_DISK_SECTORS-%d." % PrimaryGPTNumLBAs,"DISK",              "Update last partition %d '%s' with actual size in Primary Header." % ((j+1),PhyPartition[k][j]['label']))
 
-                        
+
                 ## gpt patch - backup gpt partition array
                 UpdatePatch(str(BackupStartSector),    ByteOffset,PhysicalPartitionNumber,8,"NUM_DISK_SECTORS-%d." % PrimaryGPTNumLBAs,os.path.basename(GPTBACKUP),"Update last partition %d '%s' with actual size in Backup Header." % ((j+1),PhyPartition[k][j]['label']))
                 UpdatePatch("NUM_DISK_SECTORS-%d." % (BackupGPTNumLBAs-BackupStartSector),ByteOffset,PhysicalPartitionNumber,8,"NUM_DISK_SECTORS-%d." % PrimaryGPTNumLBAs,"DISK",                "Update last partition %d '%s' with actual size in Backup Header." % ((j+1),PhyPartition[k][j]['label']))
-	
+
         LastLBA = FirstLBA + ConvertKBtoSectors( PhyPartition[k][j]['size_in_kb'] ) ## increase by num sectors, LastLBA inclusive, so add 1 for size
         LastLBA -= 1  # inclusive, meaning 0 to 3 is 4 sectors
 
         #import pdb; pdb.set_trace()
 
         print "\n\tAt sector location %d with size %.2f MB (%d sectors) and LastLBA=%d (0x%X)" % (FirstLBA,PhyPartition[k][j]['size_in_kb']/1024.0,ConvertKBtoSectors(PhyPartition[k][j]['size_in_kb']),LastLBA,LastLBA)
-        
+
         if HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB']>0:
             AlignedRemainder = FirstLBA % HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB'];
             if AlignedRemainder==0:
@@ -620,18 +620,18 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
 
         # If the partition is a multiple of 4, it must start on an LBA boundary of size SECTOR_SIZE_IN_BYTES
 #        if j%4==0 :
-#            # To be here means the partition number is a multiple of 4, so it must start on 
+#            # To be here means the partition number is a multiple of 4, so it must start on
 #            # an LBA boundary, i.e. LBA2, LBA3 etc.
 #            if i%SECTOR_SIZE_IN_BYTES > 0:
 #                print "\tWARNING: Location is %i, need to add %i to offset" % (i, SECTOR_SIZE_IN_BYTES-(i%SECTOR_SIZE_IN_BYTES))
 #                i += (SECTOR_SIZE_IN_BYTES-(i%SECTOR_SIZE_IN_BYTES))
-#            
+#
 #            print "\n==============================================================================="
 #	    print "This partition array entry (%i) is a multiple of 4 and must begin on a boundary of size %i bytes" % (j,SECTOR_SIZE_IN_BYTES)
 #            print "This partition array entry is at LBA%i, absolute byte address %i (0x%X)" % (i/SECTOR_SIZE_IN_BYTES,i,i)
 #	    print "NOTE: LBA0 is protective MBR, LBA1 is Primary GPT Header, LBA2 beginning of Partition Array"
 #            print "===============================================================================\n"
-        
+
         for b in range(16):
             PrimaryGPT[i] = ((PartitionTypeGUID>>(b*8)) & 0xFF) ; i+=1
 
@@ -645,11 +645,11 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
 				UniquePartitionGUID = random.randint(0,2**(128))
 
         print "UniquePartitionGUID\t0x%X" % UniquePartitionGUID
-        
-        
+
+
         # This HACK section is for verifying with GPARTED, allowing me to put in
         # whatever uniqueGUID that program came up with
-        
+
         #if j==0:
         #    UniquePartitionGUID = 0x373C17CF53BC7FB149B85A927ED24483
         #elif j==1:
@@ -658,7 +658,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
         #    UniquePartitionGUID = 0x04A9B2AAEF96DAAE465F429D0EF5C6E2
         #else:
         #    UniquePartitionGUID = 0x4D82D027725FD3AE46AF1C5A28944977
-            
+
         for b in range(16):
             PrimaryGPT[i] = ((UniquePartitionGUID>>(b*8)) & 0xFF) ; i+=1
 
@@ -669,7 +669,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
         # Last LBA
         for b in range(8):
             PrimaryGPT[i] = ((LastLBA>>(b*8)) & 0xFF) ; i+=1
-        
+
         print "**** FirstLBA=%d and LastLBA=%d and size is %i sectors" % (FirstLBA,LastLBA,LastLBA-FirstLBA+1)
 
         # Attributes
@@ -692,14 +692,14 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
         print "Attributes\t\t0x%X" % Attributes
 
         ##import pdb; pdb.set_trace()
-            
+
         for b in range(8):
             PrimaryGPT[i] = ((Attributes>>(b*8)) & 0xFF) ; i+=1
 
         if len(PhyPartition[k][j]['label'])>36:
             print "Label %s is more than 36 characters, therefore it's truncated" % PhyPartition[k][j]['label']
             PhyPartition[k][j]['label'] = PhyPartition[k][j]['label'][0:36]
-            
+
         #print "LABEL %s and i=%i" % (PhyPartition[k][j]['label'],i)
         # Partition Name
         for b in PhyPartition[k][j]['label']:
@@ -709,7 +709,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
         for b in range(36-len(PhyPartition[k][j]['label'])):
             PrimaryGPT[i] = 0x00 ; i+=1
             PrimaryGPT[i] = 0x00 ; i+=1
-        
+
         #for b in range(2):
         #    PrimaryGPT[i] = 0x00 ; i+=1
         #for b in range(70):
@@ -718,7 +718,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
         ##FileToProgram   = ""
         ##FileOffset      = 0
         PartitionLabel  = ""
-        
+
         ## Default for each partition is no file
         FileToProgram           = [""]
         FileOffset              = [0]
@@ -730,14 +730,14 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
             ##print "filename exists"
             #print PhyPartition[k][j]['filename']
             #print FileToProgram[0]
-            
+
 	    # These are all the default values that should be there, including an empty string possibly for filename
             FileToProgram[0]            = PhyPartition[k][j]['filename'][0]
             FileOffset[0]               = PhyPartition[k][j]['fileoffset'][0]
             FilePartitionOffset[0]      = PhyPartition[k][j]['filepartitionoffset'][0]
             FileAppsbin[0]              = PhyPartition[k][j]['appsbin'][0]
             FileSparse[0]               = PhyPartition[k][j]['sparse'][0]
-            
+
             for z in range(1,len(PhyPartition[k][j]['filename'])):
                 FileToProgram.append( PhyPartition[k][j]['filename'][z] )
                 FileOffset.append( PhyPartition[k][j]['fileoffset'][z] )
@@ -746,13 +746,13 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
                 FileSparse.append( PhyPartition[k][j]['sparse'][z] )
 
             #print PhyPartition[k][j]['fileoffset']
-            
+
 
         #for z in range(len(FileToProgram)):
         #    print "FileToProgram[",z,"]=",FileToProgram[z]
         #    print "FileOffset[",z,"]=",FileOffset[z]
         #    print " "
-        
+
 
         if 'label' in PhyPartition[k][j]:
             PartitionLabel = PhyPartition[k][j]['label']
@@ -805,7 +805,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
 
             if j==0:
                 UpdateRawProgram(RawProgramXML_Blank,0, 33*SECTOR_SIZE_IN_BYTES/1024.0, PhysicalPartitionNumber, FileOffset[z], 33, "gpt_empty%d.bin" % k, "false", "PrimaryGPT", "false", "false")
-	    
+
 
         LastLBA += 1    ## move to the next free sector, also, 0 to 9 inclusive means it's 10
                         ## so below (LastLBA-FirstLBA) must = 10
@@ -877,7 +877,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
     PartitionsPerSector = SECTOR_SIZE_IN_BYTES/128  ## 128 bytes per partition
 
     if NumPartitions>PartitionsPerSector:
-        SectorsToCalculateCRCOver = NumPartitions/PartitionsPerSector 
+        SectorsToCalculateCRCOver = NumPartitions/PartitionsPerSector
         if NumPartitions%PartitionsPerSector:
             SectorsToCalculateCRCOver+=1
     else:
@@ -885,20 +885,20 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
 
     PartitionsCRC = CalcCRC32(PrimaryGPT[(2*SECTOR_SIZE_IN_BYTES):],SectorsToCalculateCRCOver * SECTOR_SIZE_IN_BYTES)  ## NAND HACK
 
-    
+
     i = UpdatePrimaryGPT(PartitionsCRC,4,i)
     print "\n\nCalculated PARTITION CRC is 0x%.8X" % PartitionsCRC
 
-    ## gpt patch - main gpt header - last useable lba                    
+    ## gpt patch - main gpt header - last useable lba
     ByteOffset          = str(48)
     StartSector         = str(1)
     BackupStartSector   = str(BackupGPTNumLBAs-1)  ## Want last sector    ##str(32)
     UpdatePatch(StartSector,ByteOffset,PhysicalPartitionNumber,8,"NUM_DISK_SECTORS-%d." % PrimaryGPTNumLBAs,os.path.basename(GPTMAIN), "Update Primary Header with LastUseableLBA.")
     UpdatePatch(StartSector,ByteOffset,PhysicalPartitionNumber,8,"NUM_DISK_SECTORS-%d." % PrimaryGPTNumLBAs,"DISK",               "Update Primary Header with LastUseableLBA.")
-    
+
     UpdatePatch(BackupStartSector,ByteOffset,PhysicalPartitionNumber,8,"NUM_DISK_SECTORS-%d." % PrimaryGPTNumLBAs,os.path.basename(GPTBACKUP), "Update Backup Header with LastUseableLBA.")
     UpdatePatch("NUM_DISK_SECTORS-1.",ByteOffset,PhysicalPartitionNumber,8,"NUM_DISK_SECTORS-%d." % PrimaryGPTNumLBAs,"DISK",             "Update Backup Header with LastUseableLBA.")
-    
+
     # gpt patch - location of backup gpt header ##########################################
     ByteOffset          = str(32)
     StartSector         = str(1)
@@ -916,7 +916,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
     # gpt patch - location of backup gpt header ##########################################
     ByteOffset          = str(72)
     BackupStartSector   = str(BackupGPTNumLBAs-1)  ## Want last sector    ##str(32)
-    
+
     ## gpt patch - main gpt header
     UpdatePatch(BackupStartSector,   ByteOffset,PhysicalPartitionNumber,8,"NUM_DISK_SECTORS-%d." % BackupGPTNumLBAs,os.path.basename(GPTBACKUP), "Update Backup Header with Partition Array Location.")
     UpdatePatch("NUM_DISK_SECTORS-1",ByteOffset,PhysicalPartitionNumber,8,"NUM_DISK_SECTORS-%d." % BackupGPTNumLBAs,"DISK",                 "Update Backup Header with Partition Array Location.")
@@ -955,7 +955,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
     ## gpt patch - main gpt header
     UpdatePatch(StartSector,ByteOffset,PhysicalPartitionNumber,4,"0",os.path.basename(GPTMAIN), "Zero Out Header CRC in Primary Header.")      # zero out old CRC first
     UpdatePatch(StartSector,ByteOffset,PhysicalPartitionNumber,4,"CRC32(1,92)",os.path.basename(GPTMAIN), "Update Primary Header with CRC of Primary Header.") # CRC32(start_sector:num_bytes)
-    
+
     UpdatePatch(StartSector,ByteOffset,PhysicalPartitionNumber,4,"0",          "DISK", "Zero Out Header CRC in Primary Header.")      # zero out old CRC first
     UpdatePatch(StartSector,ByteOffset,PhysicalPartitionNumber,4,"CRC32(1,92)","DISK", "Update Primary Header with CRC of Primary Header.") # CRC32(start_sector:num_bytes)
 
@@ -963,10 +963,10 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
     #import pdb; pdb.set_trace()
     UpdatePatch(BackupStartSector,ByteOffset,PhysicalPartitionNumber,4,"0",os.path.basename(GPTBACKUP), "Zero Out Header CRC in Backup Header.")      # zero out old CRC first
     UpdatePatch(BackupStartSector,ByteOffset,PhysicalPartitionNumber,4,"CRC32(%s,92)" % BackupStartSector,os.path.basename(GPTBACKUP), "Update Backup Header with CRC of Backup Header.")  # CRC32(start_sector:num_bytes)
-    
+
     UpdatePatch("NUM_DISK_SECTORS-1.",ByteOffset,PhysicalPartitionNumber,4,"0",           "DISK", "Zero Out Header CRC in Backup Header.")      # zero out old CRC first
     UpdatePatch("NUM_DISK_SECTORS-1.",ByteOffset,PhysicalPartitionNumber,4,"CRC32(NUM_DISK_SECTORS-1.,92)","DISK", "Update Backup Header with CRC of Backup Header.")  # CRC32(start_sector:num_bytes)
-    
+
     ## now create the backup GPT partitions
     BackupGPT       = [0xFF]*(BackupGPTNumLBAs*SECTOR_SIZE_IN_BYTES)
     BackupGPT[0:]   = PrimaryGPT[2*SECTOR_SIZE_IN_BYTES:]
@@ -1002,12 +1002,12 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
     UpdateRawProgram(RawProgramXML,0,       PrimaryGPTNumLBAs*SECTOR_SIZE_IN_BYTES/1024.0, PhysicalPartitionNumber, 0, PrimaryGPTNumLBAs, os.path.basename(GPTMAIN), 'false', 'PrimaryGPT','false','true')
     UpdateRawProgram(RawProgramXML_Wipe,0,  1*SECTOR_SIZE_IN_BYTES/1024.0, PhysicalPartitionNumber, 0,  1, "zeros_33sectors.bin", 'false', 'PrimaryGPT','false','true')
     UpdateRawProgram(RawProgramXML_Wipe,1, BackupGPTNumLBAs*SECTOR_SIZE_IN_BYTES/1024.0, PhysicalPartitionNumber, 0, BackupGPTNumLBAs, "zeros_%dsectors.bin" % BackupGPTNumLBAs, 'false', 'PrimaryGPT','false','true')
-                             
+
     #print "szStartSector=%s" % szStartSector
 
     UpdateRawProgram(RawProgramXML,-BackupGPTNumLBAs,       BackupGPTNumLBAs*SECTOR_SIZE_IN_BYTES/1024.0, PhysicalPartitionNumber, 0, BackupGPTNumLBAs, os.path.basename(GPTBACKUP), 'false', 'BackupGPT','false','true')
     UpdateRawProgram(RawProgramXML_Wipe,-BackupGPTNumLBAs, BackupGPTNumLBAs*SECTOR_SIZE_IN_BYTES/1024.0, PhysicalPartitionNumber, 0, BackupGPTNumLBAs, "zeros_%dsectors.bin" % BackupGPTNumLBAs, 'false', 'BackupGPT','false','true')
-    
+
 
     ##print "szStartSector=%s" % szStartSector
 
@@ -1023,7 +1023,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
     opfile.write( prettify(RawProgramXML_Wipe) )
     opfile.close()
     print "Created \"%s\"\t<-- Wipe out your images with this file (if needed for testing)" % RAW_PROGRAM_WIPE_PARTITIONS
-    
+
     opfile = open(RAW_PROGRAM_BLANK_GPT, "w")
     opfile.write( prettify(RawProgramXML_Blank) )
     opfile.close()
@@ -1285,7 +1285,7 @@ def ParseXML(XMLFile):
                 Partition['priority']           = 0
 
                 ##import pdb; pdb.set_trace()
-                
+
                 if 'PERFORMANCE_BOUNDARY_IN_KB' in HashInstructions:
                     Partition['PERFORMANCE_BOUNDARY_IN_KB']  = int(HashInstructions['PERFORMANCE_BOUNDARY_IN_KB'])
                 else:
@@ -1357,7 +1357,7 @@ def ParseXML(XMLFile):
 
                         if value=='0':
                             if CheckPartitionCount[NumPhyPartitions-1] == CurrentPartition:
-                                ## To be here means they have size_in_kb='0' BUT this is ok since it is the LAST partition 
+                                ## To be here means they have size_in_kb='0' BUT this is ok since it is the LAST partition
                                 pass
                             else:
                                 PrintBigError("\nERROR: Invalid size_in_kb='0' detected on partition %d of %d. This is usually a mistake. Did you mean this to be the *last* partition"%(CurrentPartition,CheckPartitionCount[NumPhyPartitions-1]))
@@ -1374,7 +1374,7 @@ def ParseXML(XMLFile):
                     else:
                         print "Just assigned %s to %s" % (name,value)
                         Partition[name]=value
-                
+
 		# No longer appending blank filename data for Trace32. Programming based on Label now
                 #if FileFound == 1:
                 #    Partition['filename'].append("")
@@ -1382,7 +1382,7 @@ def ParseXML(XMLFile):
                 #    Partition['filepartitionoffset'].append(0)
                 #    Partition['appsbin'].append("false")
                 #    Partition['sparse'].append("false")
-                
+
 
 
                 ## done with all the elements, now ensure that size matches with size_in_kb
@@ -1403,7 +1403,7 @@ def ParseXML(XMLFile):
                     PhyPartition[(NumPhyPartitions-1)]          = PartitionCollection
 
                     #print "\nPartition stored (%i partitions total)" % len(PartitionCollection)
-            
+
             else:
                 PrintBigError("ERROR: element.tag was partition, primary or extended, but it had no keys!")
 
@@ -1426,14 +1426,14 @@ def ParseXML(XMLFile):
                         Partition['sparse'][-1] = value
 
                     #Partition[name]=value
-            
+
             #print Partition['filename']
             Partition['filename'].append("")
             Partition['fileoffset'].append(0)
             Partition['filepartitionoffset'].append(0)
             Partition['appsbin'].append("false")
             Partition['sparse'].append("false")
-            
+
         #try:
         #    if len(Partition['filename'])>1:
         #        print "="*78
@@ -1451,7 +1451,7 @@ def ParseXML(XMLFile):
         #print "Showing the changes to PartitionCollection"
         #print PartitionCollection[-1]
 
-            
+
     # Must update this if the user has updated WRITE_PROTECT_BOUNDARY_IN_KB in partition.xml
     hash_w[NumWPregions]['num_sectors'] = (HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB']*1024/SECTOR_SIZE_IN_BYTES)
     hash_w[NumWPregions]['end_sector']  = (HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB']*1024/SECTOR_SIZE_IN_BYTES)-1
@@ -1495,16 +1495,16 @@ def ParseXML(XMLFile):
 
                 #print "LABEL '%s' with size %d sectors" % (Partition['label'],Partition['size_in_kb']/2)
 
-            
+
     print "MinSectorsNeeded=%d" % MinSectorsNeeded
-    #sys.exit()  # 
-                
-                
+    #sys.exit()  #
+
+
     if OutputToCreate is 'gpt':
         PrintBanner("GPT GUID discovered in XML file, Output will be GPT")
     if OutputToCreate is 'mbr':
         PrintBanner("MBR type discovered in XML file, Output will be MBR")
-    
+
 
 #    PrintPartitionCollection( PhyPartition[0] )
 def PrintPartitionCollection(PartitionCollection):
@@ -1565,7 +1565,7 @@ def UpdateWPhash(Start,Size):
 
     if Start-1 <= hash_w[NumWPregions]["end_sector"]:
         #print "\n\tCurrent Write Protect region already covers the start of this partition (start=%i)" % hash_w[NumWPregions]["start_sector"]
-        
+
         if (Start + Size - 1) > hash_w[NumWPregions]["end_sector"]:
             print "\n\tCurrent Write Protect region is not big enough at %i sectors, needs to be at least %i sectors" % (hash_w[NumWPregions]["end_sector"]-hash_w[NumWPregions]["start_sector"]+1,Start + Size - 1,)
             while (Start + Size - 1) > hash_w[NumWPregions]["end_sector"]:
@@ -1575,22 +1575,22 @@ def UpdateWPhash(Start,Size):
                     hash_w[NumWPregions]["num_boundaries_covered"] = hash_w[NumWPregions]["num_sectors"] / (HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB']*1024/SECTOR_SIZE_IN_BYTES)
                 else:
                     hash_w[NumWPregions]["num_boundaries_covered"] = 0
-            
+
             print "\t\tend_sector increased to %i sectors" % hash_w[NumWPregions]["end_sector"]
             print "\t\tnum_sectors increased to %i sectors" % hash_w[NumWPregions]["num_sectors"]
-        
+
         #print "\n\tCurrent Write Protect region covers this partition (num_sectors=%i)\n" % hash_w[NumWPregions]["num_sectors"]
-        
+
     else:
         print "\n\tNew write protect region needed"
         #print "\tStart-1\t\t\t\t=%i" % (Start-1)
         #print "\tLAST hash_w[NumWPregions][end_sector]=%i\n" % hash_w[NumWPregions]["end_sector"]
-        
+
 
         NumWPregions+=1;
-        
+
         hash_w.append( {'start_sector':Start,'num_sectors':(HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB']*1024/SECTOR_SIZE_IN_BYTES),'end_sector':Start+(HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB']*1024/SECTOR_SIZE_IN_BYTES)-1,'physical_partition_number':0,'boundary_num':0,'num_boundaries_covered':1} )
-        
+
         hash_w[NumWPregions]["boundary_num"] = Start / (HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB']*1024/SECTOR_SIZE_IN_BYTES)
 
         while (Start + Size - 1) > hash_w[NumWPregions]["end_sector"]:
@@ -1599,7 +1599,7 @@ def UpdateWPhash(Start,Size):
             hash_w[NumWPregions]["end_sector"]  += (HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB']*1024/SECTOR_SIZE_IN_BYTES);
             #print "\t\tend_sector increased to %i sectors" % hash_w[NumWPregions]["end_sector"]
             #print "\t\tnum_sectors increased to %i sectors" % hash_w[NumWPregions]["num_sectors"]
-            
+
         hash_w[NumWPregions]["num_boundaries_covered"] = hash_w[NumWPregions]["num_sectors"] / (HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB']*1024/SECTOR_SIZE_IN_BYTES)
 
         print "\t\tstart_sector = %i sectors" % hash_w[NumWPregions]["start_sector"]
@@ -1633,28 +1633,28 @@ def CalcCRC32(array,Len):
    for i in range(Len):
       DataByte = array[i]
       DataByte = reflect( DataByte, 8 );
-   
+
       for j in range(k):
         MSB  = DataByte>>(k-1)  ## get MSB
         MSB &= 1                ## ensure just 1 bit
-   
+
         regsMSB = (regs>>31) & 1
 
         regs = regs<<1          ## shift regs for CRC-CCITT
-   
+
         if regsMSB ^ MSB:       ## MSB is a 1
             regs = regs ^ gx    ## XOR with generator poly
-   
+
         regs = regs & regsMask; ## Mask off excess upper bits
 
         DataByte <<= 1          ## get to next bit
 
-   
+
    regs          = regs & regsMask ## Mask off excess upper bits
    ReflectedRegs = reflect(regs,32) ^ 0xFFFFFFFF;
 
    #print "CRC is 0x%.8X\n" % ReflectedRegs
-   
+
    return ReflectedRegs
 
 
@@ -1694,8 +1694,8 @@ def HexPrettyPrint(data,Length):
            szNum = ""
            szAsc = ""
 
-       ##print "v=",v," type",type(v)   
-       ##import pdb; pdb.set_trace()     
+       ##print "v=",v," type",type(v)
+       ##import pdb; pdb.set_trace()
        #if type(v) is not int:    ## HACK
        #    v = ord(v)  ## convert to unsigned char (integers in python)
        szNum += "%.2X " % v
@@ -1733,7 +1733,7 @@ def ShowUsage():
     print "%-44s\tpython ptool.py -x partition.xml -p 2" % ("Specify PHY Partition 2, (creates rawprogram2.xml)")
     print "%-44s\t\tpython ptool.py -x partition.xml -v" % ("Verbose output")
     print "%-44s\t\tpython ptool.py -x partition.xml -t c:\\temp" % ("Specify place to put output")
-    
+
 def CreateFinalPartitionBin():
     global OutputFolder
 
@@ -1810,7 +1810,7 @@ def CreateMBRPartitionTable(PhysicalPartitionNumber):
     if(k>=len(PhyPartition)):
         print "PHY Partition %i of %i not found" % (k,len(PhyPartition))
         sys.exit()
-    
+
     NumPartitions = len(PhyPartition[k])
 
     print "\n\nOn PHY Partition %d that has %d partitions" % (k,NumPartitions)
@@ -1901,7 +1901,7 @@ def CreateMBRPartitionTable(PhysicalPartitionNumber):
   # CreateMasterBootRecord(k,len(PhyPartition[k]) )
 def CreateMasterBootRecord(k,NumMBRPartitions):
     global PhyPartition,HashInstructions,MBR,FirstLBA,LastLBA
-    print "\nInside CreateMasterBootRecord(%d) -------------------------------------" % NumMBRPartitions    
+    print "\nInside CreateMasterBootRecord(%d) -------------------------------------" % NumMBRPartitions
 
     MBR             = [0]*SECTOR_SIZE_IN_BYTES
     MBR[440]        = (HashInstructions['DISK_SIGNATURE']>>24)&0xFF
@@ -1933,7 +1933,7 @@ def CreateMasterBootRecord(k,NumMBRPartitions):
         # Is this sector aligned?
         if HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB']>0:
             AlignedRemainder = FirstLBA % HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB'];
-            
+
             if AlignedRemainder==0:
                 print "\tThis partition is ** ALIGNED ** to a %i KB boundary at sector %i (boundary %i)" % (HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB'],FirstLBA,FirstLBA/(ConvertKBtoSectors(HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB'])))
 
@@ -1949,13 +1949,13 @@ def CreateMasterBootRecord(k,NumMBRPartitions):
                 UpdatePatch(str(SectorOffsetPatchBefore),str(ByteOffset),k,4,"NUM_DISK_SECTORS-%s." % str(FirstLBA),"partition%d.bin" % k, "Update last partition with actual size.")
                 UpdatePatch(str(SectorOffsetPatchBefore),str(ByteOffset),k,4,"NUM_DISK_SECTORS-%s." % str(FirstLBA),"MBR%d.bin" % k, "Update last partition with actual size.")
                 UpdatePatch(str(SectorOffsetPatchAfter), str(ByteOffset),k,4,"NUM_DISK_SECTORS-%s." % str(FirstLBA),"DISK", "Update 'Update last partition with actual size.")
-                    
-        # Update the Write-Protect hash 
+
+        # Update the Write-Protect hash
         if PhyPartition[k][j]['readonly']=="true":
             UpdateWPhash(FirstLBA, PartitionSectorSize)
 
         LastLBA += PartitionSectorSize ## increase by num sectors, LastLBA inclusive, so add 1 for size
-        
+
         ## Default for each partition is no file
         FileToProgram           = [""]
         FileOffset              = [0]
@@ -1967,7 +1967,7 @@ def CreateMasterBootRecord(k,NumMBRPartitions):
             ##print "filename exists"
             #print PhyPartition[k][j]['filename']
             #print FileToProgram[0]
-            
+
 
             FileToProgram[0]            = PhyPartition[k][j]['filename'][0]
             FileOffset[0]               = PhyPartition[k][j]['fileoffset'][0]
@@ -1983,13 +1983,13 @@ def CreateMasterBootRecord(k,NumMBRPartitions):
                 FileSparse.append( PhyPartition[k][j]['sparse'][z] )
 
             #print PhyPartition[k][j]['fileoffset']
-            
+
 
         #for z in range(len(FileToProgram)):
         #    print "FileToProgram[",z,"]=",FileToProgram[z]
         #    print "FileOffset[",z,"]=",FileOffset[z]
         #    print " "
-        
+
         PartitionLabel  = ""
         Type            = ""
         Bootable        = "false"
@@ -2054,7 +2054,7 @@ def CreateExtendedBootRecords(k,NumEBRPartitions):
 
 
     # EBROffset is the num sectors from the location of the EBR to the actual logical partition
-    # and because we group all the EBRs together, 
+    # and because we group all the EBRs together,
     #   EBR0 is NumEBRPartitions away from EXT0
     #   EBR1 is NumEBRPartitions-1+SizeOfEXT0 away from EXT1 and so on
     #   EBR2 is NumEBRPartitions-2+SizeOfEXT0+SizeOfEXT1 away from EXT2 and so on
@@ -2105,7 +2105,7 @@ def CreateExtendedBootRecords(k,NumEBRPartitions):
             SectorOffsetPatchBefore = NumEBRs
             SectorOffsetPatchAfter  = ExtendedPartitionBegins+NumEBRs-1
             ByteOffset              = 0x1CA
-            
+
             ## Patch no matter what
             UpdatePatch(str(SectorOffsetPatchBefore),str(ByteOffset),PhysicalPartitionNumber,4,"NUM_DISK_SECTORS-%s." % str(FirstLBA+1),"partition%d.bin" % k, "Update last partition with actual size.")
             UpdatePatch(str(SectorOffsetPatchBefore-1),str(ByteOffset),PhysicalPartitionNumber,4,"NUM_DISK_SECTORS-%s." % str(FirstLBA+1),"EBR%d.bin" % k, "Update last partition with actual size.")
@@ -2124,15 +2124,15 @@ def CreateExtendedBootRecords(k,NumEBRPartitions):
                 print "\tFirstLBA (%d) is *not* covered by the end of the WP region (%d),\n\tit needs to be moved to be aligned to %d" % (FirstLBA,hash_w[NumWPregions]["end_sector"],FirstLBA + SectorsTillNextBoundary)
                 FirstLBA += SectorsTillNextBoundary
         elif PhyPartition[k][j]['align']=="true":
-            ## to be here means this partition *must* be on an ALIGN boundary 
+            ## to be here means this partition *must* be on an ALIGN boundary
             SectorsTillNextBoundary = ReturnNumSectorsTillBoundary(FirstLBA,HashInstructions['ALIGN_BOUNDARY_IN_KB'])
             if SectorsTillNextBoundary>0:
                 print "\tSectorsTillNextBoundary=%d, FirstLBA=%d it needs to be moved to be aligned to %d" % (SectorsTillNextBoundary,FirstLBA,FirstLBA + SectorsTillNextBoundary)
                 print "\tHashInstructions['ALIGN_BOUNDARY_IN_KB']=",HashInstructions['ALIGN_BOUNDARY_IN_KB']
                 FirstLBA += SectorsTillNextBoundary
-                
+
                 AlignedRemainder = FirstLBA % HashInstructions['ALIGN_BOUNDARY_IN_KB'];
-                
+
                 if AlignedRemainder==0:
                     print "\tThis partition is ** ALIGNED ** to a %i KB boundary at sector %i (boundary %i)" % (HashInstructions['ALIGN_BOUNDARY_IN_KB'],FirstLBA,FirstLBA/(ConvertKBtoSectors(HashInstructions['ALIGN_BOUNDARY_IN_KB'])))
 
@@ -2152,7 +2152,7 @@ def CreateExtendedBootRecords(k,NumEBRPartitions):
 
         if HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB']>0:
             AlignedRemainder = FirstLBA % HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB'];
-        
+
             if AlignedRemainder==0:
                 print "\tThis partition is ** ALIGNED ** to a %i KB boundary at sector %i (boundary %i)" % (HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB'],FirstLBA,FirstLBA/(ConvertKBtoSectors(HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB'])))
 
@@ -2178,13 +2178,13 @@ def CreateExtendedBootRecords(k,NumEBRPartitions):
             ##print "filename exists"
             #print PhyPartition[k][j]['filename']
             #print FileToProgram[0]
-            
+
             FileToProgram[0]            = PhyPartition[k][j]['filename'][0]
             FileOffset[0]               = PhyPartition[k][j]['fileoffset'][0]
             FilePartitionOffset[0]      = PhyPartition[k][j]['filepartitionoffset'][0]
             FileAppsbin[0]              = PhyPartition[k][j]['appsbin'][0]
             FileSparse[0]               = PhyPartition[k][j]['sparse'][0]
-            
+
             for z in range(1,len(PhyPartition[k][j]['filename'])):
                 FileToProgram.append( PhyPartition[k][j]['filename'][z] )
                 FileOffset.append( PhyPartition[k][j]['fileoffset'][z] )
@@ -2193,7 +2193,7 @@ def CreateExtendedBootRecords(k,NumEBRPartitions):
                 FileSparse.append( PhyPartition[k][j]['sparse'][z] )
 
             #print PhyPartition[k][j]['fileoffset']
-            
+
 
         #for z in range(len(FileToProgram)):
         #    print "FileToProgram[",z,"]=",FileToProgram[z]
@@ -2255,22 +2255,22 @@ def ReturnNumSectorsTillBoundary(CurrentLBA, BoundaryInKB):
     #Say BoundaryInKB is 65536 (64MB)
     #    if SECTOR_SIZE_IN_BYTES=512,  BoundaryLBA=131072
     #    if SECTOR_SIZE_IN_BYTES=4096, BoundaryLBA=16384
-    
+
     #Say were at the 63MB boundary, then
     #    if SECTOR_SIZE_IN_BYTES=512,  CurrentLBA=129024
     #    if SECTOR_SIZE_IN_BYTES=4096, CurrentLBA=16128
-    
+
     # Distance is then 1MB
     #    if SECTOR_SIZE_IN_BYTES=512,  DistanceLBA=2048   (2048*512=1MB)
     #    if SECTOR_SIZE_IN_BYTES=4096, DistanceLBA=256	  (256*4096=1MB)
 
     ##import pdb; pdb.set_trace()
-    
+
     x = 0
     if BoundaryInKB>0:
         if (CurrentLBA%ConvertKBtoSectors(BoundaryInKB)) > 0:
             x = ConvertKBtoSectors(BoundaryInKB) - (CurrentLBA%ConvertKBtoSectors(BoundaryInKB))
-    
+
     ##print "\tFYI: Increase by %dKB (%d sectors) if you want to align to %i KB boundary at sector %d" % (x/2,x,BoundaryInKB,CurrentLBA+x)
     return x
 
@@ -2296,7 +2296,7 @@ def PrintBigError(sz):
     if len(sz)>0:
         print sz
         sys.exit(1)
-                                   
+
 
 def find_file(filename, search_paths):
     print "\n\n\tLooking for ",filename
@@ -2487,6 +2487,3 @@ else:
     InitializeXMLFileVars()
     CreateMBRPartitionTable( PhysicalPartitionNumber )
     CreateFinalPartitionBin()
-
-
-
