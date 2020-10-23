@@ -462,7 +462,7 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
     PrimaryGPTNumLBAs=len(PrimaryGPT)/SECTOR_SIZE_IN_BYTES
     BackupGPTNumLBAs =len(BackupGPT)/SECTOR_SIZE_IN_BYTES
     i           = 2*SECTOR_SIZE_IN_BYTES    ## partition arrays begin here
-    FirstLBA    = PrimaryGPTNumLBAs
+    FirstLBA    = HashInstructions['FIRST_SECTOR_OF_FIRST_PARTITION'] # PrimaryGPTNumLBAs
     LastLBA     = FirstLBA               ## Make these equal at first
 
     if HashInstructions['WRITE_PROTECT_GPT_PARTITION_TABLE'] is True:
@@ -1191,7 +1191,17 @@ def ParseXML(XMLFile):
         #print "ALIGN_BOUNDARY_IN_KB does not exist"
         HashInstructions['ALIGN_BOUNDARY_IN_KB'] = HashInstructions['WRITE_PROTECT_BOUNDARY_IN_KB']
 
-
+    if 'FIRST_SECTOR_OF_FIRST_PARTITION' in HashInstructions:
+        if type(HashInstructions['FIRST_SECTOR_OF_FIRST_PARTITION']) is str:
+            m = re.search("^(\d+)$", HashInstructions['FIRST_SECTOR_OF_FIRST_PARTITION'])
+            if type(m) is NoneType:
+                ## we didn't match, so assign deafult
+                HashInstructions['FIRST_SECTOR_OF_FIRST_PARTITION'] = 34
+            else:
+                HashInstructions['FIRST_SECTOR_OF_FIRST_PARTITION'] = int(HashInstructions['FIRST_SECTOR_OF_FIRST_PARTITION'])
+    else:
+        #print "WRITE_PROTECT_BOUNDARY_IN_KB does not exist"
+        HashInstructions['FIRST_SECTOR_OF_FIRST_PARTITION'] = 34
 
 
 
@@ -1470,6 +1480,7 @@ def ParseXML(XMLFile):
     print "HashInstructions['ALIGN_BOUNDARY_IN_KB']            =%d" % HashInstructions['ALIGN_BOUNDARY_IN_KB']
     print "HashInstructions['GROW_LAST_PARTITION_TO_FILL_DISK']=%s" % HashInstructions['GROW_LAST_PARTITION_TO_FILL_DISK']
     print "HashInstructions['DISK_SIGNATURE']=0x%X" % HashInstructions['DISK_SIGNATURE']
+    print "HashInstructions['FIRST_SECTOR_OF_FIRST_PARTITION'] =%d" % HashInstructions['FIRST_SECTOR_OF_FIRST_PARTITION']
 
     #for j in range(len(PhyPartition)):
     #for j in range(1):
