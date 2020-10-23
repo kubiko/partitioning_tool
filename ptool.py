@@ -682,6 +682,8 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
             Attributes |= 1<<62
         if PhyPartition[k][j]['dontautomount']=="true":
             Attributes |= 1<<63
+        if PhyPartition[k][j]['uc20_install_created']=="true":
+            Attributes |= 1<<59
         if PhyPartition[k][j]['system']=="true":
             Attributes |= 1<<0
         if PhyPartition[k][j]['tries_remaining']>0:
@@ -1278,6 +1280,8 @@ def ParseXML(XMLFile):
                 Partition['appsbin']             = ["false"]
                 Partition['sparse']              = ["false"]
                 Partition['filepartitionoffset'] = [0]
+
+                Partition['uc20_install_created'] = ["false"]
 
                 Partition['size_in_kb']         = 0
                 Partition['original_size_in_kb']= 0
