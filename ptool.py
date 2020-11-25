@@ -35,8 +35,8 @@ import struct
 from types import *
 from time import sleep
 
-if sys.version_info < (3):
-    sys.stdout.write("\n\nERROR: This script needs Python version 3 or greater, detected as ")
+if sys.version_info < (3,8):
+    sys.stdout.write("\n\nERROR: This script needs Python version 3.8 or greater, detected as ")
     print(sys.version_info)
     sys.exit()  # error
 
